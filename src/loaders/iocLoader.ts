@@ -7,11 +7,11 @@ import { useContainer as ormUseContainer } from 'typeorm';
 
 export const iocLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
 
-    /**
-     * Setup routing-controllers to use typedi container.
-     */
-    routingUseContainer(Container);
-    ormUseContainer(Container);
-    classValidatorUseContainer(Container);
-    typeGraphQLUseContainer(Container);
+  /**
+   * Setup routing-controllers to use typedi container.
+   */
+  routingUseContainer(Container);
+  ormUseContainer(Container);
+  classValidatorUseContainer(Container);
+  typeGraphQLUseContainer(Container);
 };

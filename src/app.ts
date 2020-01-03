@@ -26,22 +26,22 @@ import { winstonLoader } from './loaders/winstonLoader';
 const log = new Logger(__filename);
 
 bootstrapMicroframework({
-    /**
-     * Loader is a place where you can configure all your modules during microframework
-     * bootstrap process. All loaders are executed one by one in a sequential order.
-     */
-    loaders: [
-        winstonLoader,
-        iocLoader,
-        eventDispatchLoader,
-        typeormLoader,
-        expressLoader,
-        swaggerLoader,
-        monitorLoader,
-        homeLoader,
-        publicLoader,
-        graphqlLoader,
-    ],
+  /**
+   * Loader is a place where you can configure all your modules during microframework
+   * bootstrap process. All loaders are executed one by one in a sequential order.
+   */
+  loaders: [
+    winstonLoader,
+    iocLoader,
+    eventDispatchLoader,
+    typeormLoader,
+    expressLoader,
+    swaggerLoader,
+    monitorLoader,
+    homeLoader,
+    publicLoader,
+    graphqlLoader,
+  ],
 })
-    .then(() => banner(log))
-    .catch(error => log.error('Application is crashed: ' + error));
+  .then(() => banner(log))
+  .catch(error => log.error('Application is crashed: ' + error));
