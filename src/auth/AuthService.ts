@@ -2,8 +2,8 @@ import * as express from 'express';
 import { Service } from 'typedi';
 import { OrmRepository } from 'typeorm-typedi-extensions';
 
-import { User } from '../api/models/User';
-import { UserRepository } from '../api/repositories/UserRepository';
+import { SampleUser } from '../api/models/SampleUser';
+import { SampleUserRepository } from '../api/repositories/SampleUserRepository';
 import { Logger, LoggerInterface } from '../decorators/Logger';
 
 @Service()
@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(
     @Logger(__filename) private log: LoggerInterface,
-    @OrmRepository() private userRepository: UserRepository,
+    @OrmRepository() private userRepository: SampleUserRepository,
   ) {
   }
 
@@ -32,14 +32,14 @@ export class AuthService {
     return undefined;
   }
 
-  public async validateUser(username: string, password: string): Promise<User> {
+  public async validateUser(username: string, password: string): Promise<SampleUser> {
     const user = await this.userRepository.findOne({
       where: {
         username,
       },
     });
 
-    if (await User.comparePassword(user, password)) {
+    if (await SampleUser.comparePassword(user, password)) {
       return user;
     }
 
