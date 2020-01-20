@@ -6,16 +6,16 @@ export class AddUserRelationToPetTable1512663990063 implements MigrationInterfac
         name: 'fk_user_pet',
         columnNames: ['user_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'user',
+        referencedTableName: 'sample_user',
         onDelete: 'CASCADE',
     });
 
     public async up(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.createForeignKey('pet', this.tableForeignKey);
+        await queryRunner.createForeignKey('sample_pet', this.tableForeignKey);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.dropForeignKey('pet', this.tableForeignKey);
+        await queryRunner.dropForeignKey('sample_pet', this.tableForeignKey);
     }
 
 }
