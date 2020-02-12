@@ -51,6 +51,7 @@ export const env = {
     output: getOsEnv('LOG_OUTPUT'),
   },
   db: {
+    enabled: toBool(getOsEnv('TYPEORM_ENABLED')),
     type: getOsEnv('TYPEORM_CONNECTION'),
     host: getOsEnvOptional('TYPEORM_HOST'),
     port: toNumber(getOsEnvOptional('TYPEORM_PORT')),

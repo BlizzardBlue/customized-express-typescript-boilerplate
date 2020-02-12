@@ -5,16 +5,11 @@ import { createExpressServer } from 'routing-controllers';
 import { authorizationChecker } from '../auth/authorizationChecker';
 import { currentUserChecker } from '../auth/currentUserChecker';
 import { env } from '../env';
+import { RoutingControllersOptions } from 'routing-controllers/RoutingControllersOptions';
 
 export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
   if (settings) {
-    const connection = settings.getData('connection');
-
-    /**
-     * We create a new express server instance.
-     * We could have also use useExpressServer here to attach controllers to an existing express instance.
-     */
-    const expressApp: Application = createExpressServer({
+    const expressOptions: RoutingControllersOptions = {
       cors: true,
       classTransformer: true,
       routePrefix: env.app.routePrefix,
@@ -28,11 +23,36 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
       interceptors: env.app.dirs.interceptors,
 
       /**
+       * class-validator를 활용한 Request Payload 타입 검증
+       */
+      validation: true,
+
+      // TODO: DB를 사용 안하게 하더라도 Authorization 기능은 쓸 수 있게 개선
+      // /**
+      //  * Authorization features
+      //  */
+      // authorizationChecker: authorizationChecker(),
+      // currentUserChecker: currentUserChecker(),
+    };
+
+    // DB 사용할 경우
+    if (env.db.enabled) {
+      /**
+       * TypeOrm connection
+       */
+      const connection = settings.getData('connection');
+      /**
        * Authorization features
        */
-      authorizationChecker: authorizationChecker(connection),
-      currentUserChecker: currentUserChecker(connection),
-    });
+      expressOptions.authorizationChecker = authorizationChecker(connection);
+      expressOptions.currentUserChecker = currentUserChecker(connection);
+    }
+
+    /**
+     * We create a new express server instance.
+     * We could have also use useExpressServer here to attach controllers to an existing express instance.
+     */
+    const expressApp: Application = createExpressServer(expressOptions);
 
     // Run application to listen on given port
     if (!env.isTest) {
