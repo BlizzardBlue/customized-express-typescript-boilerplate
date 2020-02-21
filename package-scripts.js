@@ -129,6 +129,14 @@ module.exports = {
      * Database scripts
      */
     db: {
+      generate: {
+        script: series(
+          'nps banner.generate',
+          'nps config',
+          runFast('./node_modules/typeorm/cli.js migration:generate -n ScriptGenerated'),
+        ),
+        description: 'Generates TypeORM migration files from Entity',
+      },
       migrate: {
         script: series(
           'nps banner.migrate',
@@ -261,6 +269,7 @@ module.exports = {
       testUnit: banner('test.unit'),
       testIntegration: banner('test.integration'),
       testE2E: banner('test.e2e'),
+      generate: banner('generate'),
       migrate: banner('migrate'),
       seed: banner('seed'),
       revert: banner('revert'),
